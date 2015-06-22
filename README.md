@@ -1,5 +1,5 @@
 # Spectral
-A repository for our BEP regarding compressive spectrum sensing
+A repository for our BEP regarding compressive spectrum sensing.
 
 Installation
 -----------------
