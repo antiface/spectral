@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spectral.core.reconstruction.reconstructor &mdash; Spectral  documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for spectral.core.reconstruction.reconstructor</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">spectral</span> <span class="kn">as</span> <span class="nn">spec</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+
+
+<div class="viewcode-block" id="Reconstructor"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor">[docs]</a><span class="k">class</span> <span class="nc">Reconstructor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Parent class for reconstruction of spectrum sensed signal&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Reconstructor.get_Rpinv"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.get_Rpinv">[docs]</a>    <span class="k">def</span> <span class="nf">get_Rpinv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.reconstruct"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.reconstruct">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Implement this method.&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.cache_pseudoinverse"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.cache_pseudoinverse">[docs]</a>    <span class="k">def</span> <span class="nf">cache_pseudoinverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sparse</span><span class="p">):</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span>
+                 <span class="n">indptr</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">indptr</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.load_pseudoinverse"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.load_pseudoinverse">[docs]</a>    <span class="k">def</span> <span class="nf">load_pseudoinverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_filename</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;.npz&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="n">loader</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">],</span> <span class="n">loader</span><span class="p">[</span><span class="s">&#39;indices&#39;</span><span class="p">],</span>
+                                     <span class="n">loader</span><span class="p">[</span><span class="s">&#39;indptr&#39;</span><span class="p">]),</span> <span class="n">shape</span><span class="o">=</span><span class="n">loader</span><span class="p">[</span><span class="s">&#39;shape&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.cross_correlation_signals"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.cross_correlation_signals">[docs]</a>    <span class="k">def</span> <span class="nf">cross_correlation_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">max_lag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">signal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>  <span class="c"># non-negative lags</span>
+            <span class="n">all_lags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">signal</span><span class="p">[:,</span> <span class="n">lag</span><span class="p">:</span><span class="n">length</span><span class="p">],</span> <span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">hermitian</span><span class="p">(</span><span class="n">signal</span><span class="p">[:,</span> <span class="p">:(</span><span class="n">length</span> <span class="o">-</span> <span class="n">lag</span><span class="p">)]))</span>
+            <span class="n">all_lags</span> <span class="o">=</span> <span class="n">all_lags</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="n">lag</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[:,</span> <span class="n">lag</span> <span class="o">+</span> <span class="n">max_lag</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_lags</span>
+        <span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>  <span class="c"># non-positive lags</span>
+            <span class="n">all_lags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">signal</span><span class="p">[:,</span> <span class="p">:</span><span class="n">length</span> <span class="o">-</span> <span class="n">lag</span><span class="p">],</span> <span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">hermitian</span><span class="p">(</span><span class="n">signal</span><span class="p">[:,</span> <span class="n">lag</span><span class="p">:</span><span class="n">length</span><span class="p">]))</span>
+            <span class="n">all_lags</span> <span class="o">=</span> <span class="n">all_lags</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="n">lag</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[:,</span> <span class="n">max_lag</span> <span class="o">-</span> <span class="n">lag</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_lags</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.calc_pseudoinverse"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.calc_pseudoinverse">[docs]</a>    <span class="k">def</span> <span class="nf">calc_pseudoinverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+        <span class="n">R_pinv_accent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_pseudoinverse</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">R_pinv_accent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_valid_pinv</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="n">R_pinv_accent</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Loaded reconstruction inversion matrix from file cache&quot;</span><span class="p">)</span>
+            <span class="n">R_pinv</span> <span class="o">=</span> <span class="n">R_pinv_accent</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Could not load from cache, rebuilding reconstruction inversion matrix&quot;</span><span class="p">)</span>
+            <span class="n">R_pinv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">R</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache_pseudoinverse</span><span class="p">(</span><span class="n">R_pinv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">R_pinv</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.check_valid_pinv"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.check_valid_pinv">[docs]</a>    <span class="k">def</span> <span class="nf">check_valid_pinv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mat</span><span class="p">,</span> <span class="n">Pinv</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">Mat</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">Pinv</span><span class="o">.</span><span class="n">shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="n">Mat_accent</span> <span class="o">=</span> <span class="n">Mat</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Pinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Mat</span><span class="p">))</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Mat_accent</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">Mat</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">check</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.get_non_zero_column"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.get_non_zero_column">[docs]</a>    <span class="k">def</span> <span class="nf">get_non_zero_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">matrix</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>  <span class="c"># Vieze oneliners ftw</span>
+</div>
+<div class="viewcode-block" id="Reconstructor.get_filename"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor.get_filename">[docs]</a>    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">CACHE_DIR</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">filename</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;_&quot;</span>
+        <span class="n">filename</span> <span class="o">+=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span> <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_non_zero_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">filepath</span> <span class="o">+</span> <span class="n">filename</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

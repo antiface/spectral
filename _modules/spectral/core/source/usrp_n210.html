@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spectral.core.source.usrp_n210 &mdash; Spectral  documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for spectral.core.source.usrp_n210</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">.source</span> <span class="kn">import</span> <span class="n">Source</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">gnuradio</span> <span class="kn">import</span> <span class="n">uhd</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">class</span> <span class="nc">uhd</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">usrp_source</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;UHD lib not installed&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="UsrpN210"><a class="viewcode-back" href="../../../../spectral.core.source.usrp_n210.html#spectral.core.source.usrp_n210.UsrpN210">[docs]</a><span class="k">class</span> <span class="nc">UsrpN210</span><span class="p">(</span><span class="n">Source</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Signal coming from a USRP N210 radio. This class starts a connection</span>
+<span class="sd">    with the radio and provides methods for receiving samples,</span>
+<span class="sd">    setting center frequency and gain values. The local oscillator offset</span>
+<span class="sd">    is needed because the automatic dc offset calibration does not work</span>
+<span class="sd">    with the finite_acquisition function.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        addr: IP address of the USRP</span>
+<span class="sd">        samp_freq: Sample frequency of the USRP</span>
+<span class="sd">        center_freq: Initial center frequency on initialisation</span>
+<span class="sd">        lo_ffset: Local oscillator offset</span>
+<span class="sd">        gain: Amount of antenna gain (dB)</span>
+<span class="sd">        sample_format: Output datatype of the USRP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">samp_freq</span><span class="o">=</span><span class="mf">25e6</span><span class="p">,</span> <span class="n">center_freq</span><span class="o">=</span><span class="mf">2.4e9</span><span class="p">,</span> <span class="n">lo_offset</span><span class="o">=</span><span class="mf">12.5e6</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sample_format</span><span class="o">=</span><span class="s">&#39;fc32&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samp_freq</span> <span class="o">=</span> <span class="n">samp_freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lo_offset</span> <span class="o">=</span> <span class="n">lo_offset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">=</span> <span class="n">gain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span> <span class="o">=</span> <span class="n">uhd</span><span class="o">.</span><span class="n">usrp_source</span><span class="p">(</span><span class="s">&quot;addr=&quot;</span> <span class="o">+</span> <span class="n">addr</span><span class="p">,</span>
+                                   <span class="n">uhd</span><span class="o">.</span><span class="n">stream_args</span><span class="p">(</span>
+                                       <span class="n">cpu_format</span><span class="o">=</span><span class="n">sample_format</span><span class="p">,</span>
+                                       <span class="n">channels</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                                   <span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span><span class="o">.</span><span class="n">set_samp_rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samp_freq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span><span class="o">.</span><span class="n">set_antenna</span><span class="p">(</span><span class="s">&quot;TX/RX&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span><span class="o">.</span><span class="n">set_bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samp_freq</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_frequency</span><span class="p">(</span><span class="n">center_freq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_gain</span><span class="p">(</span><span class="n">gain</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UsrpN210.set_frequency"><a class="viewcode-back" href="../../../../spectral.core.source.usrp_n210.html#spectral.core.source.usrp_n210.UsrpN210.set_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to tune the USRP to the desired frequency.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frequency: Desired center freqeuncy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">!=</span> <span class="n">frequency</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Tuning to&quot;</span><span class="p">,</span> <span class="n">frequency</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="s">&quot;GHz&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">=</span> <span class="n">frequency</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span><span class="o">.</span><span class="n">set_center_freq</span><span class="p">(</span><span class="n">uhd</span><span class="o">.</span><span class="n">tune_request</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lo_offset</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UsrpN210.set_gain"><a class="viewcode-back" href="../../../../spectral.core.source.usrp_n210.html#spectral.core.source.usrp_n210.UsrpN210.set_gain">[docs]</a>    <span class="k">def</span> <span class="nf">set_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gain</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to set the antenna gain on the USRP</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gain: Desired gain in dB</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">!=</span> <span class="n">gain</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">=</span> <span class="n">gain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span><span class="o">.</span><span class="n">set_gain</span><span class="p">(</span><span class="n">gain</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UsrpN210.generate"><a class="viewcode-back" href="../../../../spectral.core.source.usrp_n210.html#spectral.core.source.usrp_n210.UsrpN210.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to get samples from the USRP. The first few samples are</span>
+<span class="sd">        thrown away due to unwanted spikes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_samples: Desired number of samples</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Samples from the USRP</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uhd</span><span class="o">.</span><span class="n">finite_acquisition</span><span class="p">(</span><span class="n">num_samples</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">)[</span><span class="mi">1000</span><span class="p">:]</span>
+        <span class="n">samples</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">!=</span> <span class="n">num_samples</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Number of samples from USRP incorrect&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UsrpN210.parse_options"><a class="viewcode-back" href="../../../../spectral.core.source.usrp_n210.html#spectral.core.source.usrp_n210.UsrpN210.parse_options">[docs]</a>    <span class="k">def</span> <span class="nf">parse_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to parse options from the client. Calls the necessary</span>
+<span class="sd">        helper functions to change settings.</span>
+
+<span class="sd">        Possible keys: &#39;antenna_gain&#39; and &#39;center_freq&#39;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            options: Dictionary with options</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;antenna_gain&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_gain</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;center_freq&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_frequency</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
