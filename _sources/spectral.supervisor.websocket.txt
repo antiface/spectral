@@ -1,0 +1,18 @@
+spectral.supervisor.websocket package
+=====================================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.supervisor.websocket.websocket_control
+   spectral.supervisor.websocket.websocket_data
+
+Module contents
+---------------
+
+.. automodule:: spectral.supervisor.websocket
+    :members:
+    :undoc-members:
+    :show-inheritance:

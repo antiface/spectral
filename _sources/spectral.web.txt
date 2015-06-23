@@ -1,0 +1,17 @@
+spectral.web package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    spectral.web.webserver
+
+Module contents
+---------------
+
+.. automodule:: spectral.web
+    :members:
+    :undoc-members:
+    :show-inheritance:

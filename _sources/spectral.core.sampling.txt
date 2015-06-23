@@ -1,0 +1,20 @@
+spectral.core.sampling package
+==============================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.core.sampling.coprime
+   spectral.core.sampling.minimalsparse
+   spectral.core.sampling.multicoset
+   spectral.core.sampling.sampling
+
+Module contents
+---------------
+
+.. automodule:: spectral.core.sampling
+    :members:
+    :undoc-members:
+    :show-inheritance:

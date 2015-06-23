@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spectral.core.detection.ariananda module &mdash; Spectral  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="up" title="spectral.core.detection package" href="spectral.core.detection.html" />
+    <link rel="next" title="spectral.core.detection.detector module" href="spectral.core.detection.detector.html" />
+    <link rel="prev" title="spectral.core.detection package" href="spectral.core.detection.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-spectral.core.detection.ariananda">
+<span id="spectral-core-detection-ariananda-module"></span><h1>spectral.core.detection.ariananda module<a class="headerlink" href="#module-spectral.core.detection.ariananda" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="spectral.core.detection.ariananda.Ariananda">
+<em class="property">class </em><code class="descclassname">spectral.core.detection.ariananda.</code><code class="descname">Ariananda</code><span class="sig-paren">(</span><em>L</em>, <em>K</em>, <em>C</em>, <em>R_pinv</em>, <em>filter_correlations</em>, <em>window_length=50</em>, <em>Pfa=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="spectral.core.detection.detector.html#spectral.core.detection.detector.Detector" title="spectral.core.detection.detector.Detector"><code class="xref py py-class docutils literal"><span class="pre">spectral.core.detection.detector.Detector</span></code></a></p>
+<p>Estimated Noise Power Energy Detector</p>
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.calc_threshold">
+<code class="descname">calc_threshold</code><span class="sig-paren">(</span><em>sigma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.calc_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.calc_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>rx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.detect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.estimate_sigma">
+<code class="descname">estimate_sigma</code><span class="sig-paren">(</span><em>psd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.estimate_sigma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.estimate_sigma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.generate_Cry">
+<code class="descname">generate_Cry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.generate_Cry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.generate_Cry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.generate_Csx">
+<code class="descname">generate_Csx</code><span class="sig-paren">(</span><em>C_ry</em>, <em>R_pinv</em>, <em>R_pinv_h</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.generate_Csx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.generate_Csx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.generate_ryexp">
+<code class="descname">generate_ryexp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.generate_ryexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.generate_ryexp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.core.detection.ariananda.Ariananda.parse_options">
+<code class="descname">parse_options</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.parse_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.parse_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="spectral.html">spectral package</a><ul>
+  <li><a href="spectral.core.html">spectral.core package</a><ul>
+  <li><a href="spectral.core.detection.html">spectral.core.detection package</a><ul>
+      <li>Previous: <a href="spectral.core.detection.html" title="previous chapter">spectral.core.detection package</a></li>
+      <li>Next: <a href="spectral.core.detection.detector.html" title="next chapter">spectral.core.detection.detector module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spectral.core.detection.ariananda.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
+      
+      |
+      <a href="_sources/spectral.core.detection.ariananda.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

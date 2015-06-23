@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spectral.core.helperfunctions module &mdash; Spectral  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="up" title="spectral.core package" href="spectral.core.html" />
+    <link rel="next" title="spectral.supervisor package" href="spectral.supervisor.html" />
+    <link rel="prev" title="spectral.core.source.usrp_n210 module" href="spectral.core.source.usrp_n210.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-spectral.core.helperfunctions">
+<span id="spectral-core-helperfunctions-module"></span><h1>spectral.core.helperfunctions module<a class="headerlink" href="#module-spectral.core.helperfunctions" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="spectral.core.helperfunctions.add_bias">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">add_bias</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#add_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.add_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds triangular windows to correlated signals.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>signal: The input signal.</dd>
+<dt>returns:</dt>
+<dd>The resulting signal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.auto_correlation">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">auto_correlation</code><span class="sig-paren">(</span><em>signal</em>, <em>maxlag=None</em>, <em>unbiased=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#auto_correlation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.auto_correlation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the autocorrelation of the given signal
+with the set maximum of lags, if the unbiased flag is set to True,
+the bias is removed from the result before returning the result.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>signal: The input signal.
+maxlag: The maximum amount of lags to calculate.
+unbiased: Whether the resulting signal should be unbiased.</dd>
+<dt>returns:</dt>
+<dd>The correlated signal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.convert_db">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">convert_db</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#convert_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.convert_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the given value to decibels.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>value: The value to convert.</dd>
+<dt>returns:</dt>
+<dd>The resulting value in decibels.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.cross_correlate">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">cross_correlate</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>maxlag=None</em>, <em>unbiased=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#cross_correlate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.cross_correlate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cross correlates two signals with the set maximum of lags,
+if the unbiased flag is set to True, the bias is removed from the result
+before returning the result.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>a: The first signal to correlate.
+b: The second signal to correlate.
+maxlag: The maximum amount of lags to calculate.
+unbiased: Whether the resulting signal should be unbiased.</dd>
+<dt>returns:</dt>
+<dd>The correlated signal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.fft">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">fft</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the fast Fourier transform of the given signal,
+shifts it and returns its absolute value.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>signal: The input signal.</dd>
+<dt>returns:</dt>
+<dd>The absolute value the shifted FFT.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.hermitian">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">hermitian</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#hermitian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.hermitian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the Hermitian of a matrix.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>array: The input matrix.</dd>
+<dt>returns:</dt>
+<dd>The Hermitian of the input matrix.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.invert_db">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">invert_db</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#invert_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.invert_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the given value in decibels back to a linear scale.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>value: The value in decibels to convert.</dd>
+<dt>returns:</dt>
+<dd>The resulting value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.psd">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">psd</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.psd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the power spectral density of the input signal.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>signal: The input signal.</dd>
+<dt>returns:</dt>
+<dd>The power spectral density of the signal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.remove_bias">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">remove_bias</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#remove_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.remove_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes triangular windows from correlated signals.</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>signal: The input signal.</dd>
+<dt>returns:</dt>
+<dd>The resulting signal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spectral.core.helperfunctions.signal_power">
+<code class="descclassname">spectral.core.helperfunctions.</code><code class="descname">signal_power</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/helperfunctions.html#signal_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.helperfunctions.signal_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the signal power of a signal by
+P = <a href="#id1"><span class="problematic" id="id2">|</span></a>signal|^2/len</p>
+<dl class="docutils">
+<dt>args:</dt>
+<dd>signal: Input signal.</dd>
+<dt>returns:</dt>
+<dd>The power of the signal.</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="spectral.html">spectral package</a><ul>
+  <li><a href="spectral.core.html">spectral.core package</a><ul>
+      <li>Previous: <a href="spectral.core.source.usrp_n210.html" title="previous chapter">spectral.core.source.usrp_n210 module</a></li>
+      <li>Next: <a href="spectral.supervisor.html" title="next chapter">spectral.supervisor package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spectral.core.helperfunctions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
+      
+      |
+      <a href="_sources/spectral.core.helperfunctions.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

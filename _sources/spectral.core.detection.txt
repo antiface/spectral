@@ -1,0 +1,18 @@
+spectral.core.detection package
+===============================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.core.detection.ariananda
+   spectral.core.detection.detector
+
+Module contents
+---------------
+
+.. automodule:: spectral.core.detection
+    :members:
+    :undoc-members:
+    :show-inheritance:

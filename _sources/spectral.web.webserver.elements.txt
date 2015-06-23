@@ -1,0 +1,7 @@
+spectral.web.webserver.elements module
+======================================
+
+.. automodule:: spectral.web.webserver.elements
+    :members:
+    :undoc-members:
+    :show-inheritance:

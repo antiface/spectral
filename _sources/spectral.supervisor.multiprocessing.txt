@@ -1,0 +1,17 @@
+spectral.supervisor.multiprocessing package
+===========================================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.supervisor.multiprocessing.queue
+
+Module contents
+---------------
+
+.. automodule:: spectral.supervisor.multiprocessing
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+spectral.core.helperfunctions module
+====================================
+
+.. automodule:: spectral.core.helperfunctions
+    :members:
+    :undoc-members:
+    :show-inheritance:

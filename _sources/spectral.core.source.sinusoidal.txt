@@ -1,0 +1,7 @@
+spectral.core.source.sinusoidal module
+======================================
+
+.. automodule:: spectral.core.source.sinusoidal
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+spectral.core.source.complex_exponential module
+===============================================
+
+.. automodule:: spectral.core.source.complex_exponential
+    :members:
+    :undoc-members:
+    :show-inheritance:

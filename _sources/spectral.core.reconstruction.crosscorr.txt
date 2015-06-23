@@ -1,0 +1,7 @@
+spectral.core.reconstruction.crosscorr module
+=============================================
+
+.. automodule:: spectral.core.reconstruction.crosscorr
+    :members:
+    :undoc-members:
+    :show-inheritance:

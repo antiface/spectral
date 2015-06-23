@@ -1,0 +1,19 @@
+spectral.core.reconstruction package
+====================================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.core.reconstruction.crosscorr
+   spectral.core.reconstruction.reconstructor
+   spectral.core.reconstruction.wessel
+
+Module contents
+---------------
+
+.. automodule:: spectral.core.reconstruction
+    :members:
+    :undoc-members:
+    :show-inheritance:

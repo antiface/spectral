@@ -1,0 +1,7 @@
+spectral.core.sampling.sampling module
+======================================
+
+.. automodule:: spectral.core.sampling.sampling
+    :members:
+    :undoc-members:
+    :show-inheritance:

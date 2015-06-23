@@ -1,0 +1,7 @@
+spectral.supervisor.websocket.websocket_data module
+===================================================
+
+.. automodule:: spectral.supervisor.websocket.websocket_data
+    :members:
+    :undoc-members:
+    :show-inheritance:

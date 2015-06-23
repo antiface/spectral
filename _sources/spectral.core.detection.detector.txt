@@ -1,0 +1,7 @@
+spectral.core.detection.detector module
+=======================================
+
+.. automodule:: spectral.core.detection.detector
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+spectral.supervisor.helperfunctions module
+==========================================
+
+.. automodule:: spectral.supervisor.helperfunctions
+    :members:
+    :undoc-members:
+    :show-inheritance:

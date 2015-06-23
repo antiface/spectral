@@ -1,0 +1,7 @@
+spectral.core.sampling.minimalsparse module
+===========================================
+
+.. automodule:: spectral.core.sampling.minimalsparse
+    :members:
+    :undoc-members:
+    :show-inheritance:

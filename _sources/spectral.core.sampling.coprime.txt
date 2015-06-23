@@ -1,0 +1,7 @@
+spectral.core.sampling.coprime module
+=====================================
+
+.. automodule:: spectral.core.sampling.coprime
+    :members:
+    :undoc-members:
+    :show-inheritance:

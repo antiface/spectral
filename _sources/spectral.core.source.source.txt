@@ -1,0 +1,7 @@
+spectral.core.source.source module
+==================================
+
+.. automodule:: spectral.core.source.source
+    :members:
+    :undoc-members:
+    :show-inheritance:

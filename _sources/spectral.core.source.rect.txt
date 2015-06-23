@@ -1,0 +1,7 @@
+spectral.core.source.rect module
+================================
+
+.. automodule:: spectral.core.source.rect
+    :members:
+    :undoc-members:
+    :show-inheritance:

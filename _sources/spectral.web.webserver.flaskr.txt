@@ -1,0 +1,7 @@
+spectral.web.webserver.flaskr module
+====================================
+
+.. automodule:: spectral.web.webserver.flaskr
+    :members:
+    :undoc-members:
+    :show-inheritance:

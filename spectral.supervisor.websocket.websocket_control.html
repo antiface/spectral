@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spectral.supervisor.websocket.websocket_control module &mdash; Spectral  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="up" title="spectral.supervisor.websocket package" href="spectral.supervisor.websocket.html" />
+    <link rel="next" title="spectral.supervisor.websocket.websocket_data module" href="spectral.supervisor.websocket.websocket_data.html" />
+    <link rel="prev" title="spectral.supervisor.websocket package" href="spectral.supervisor.websocket.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-spectral.supervisor.websocket.websocket_control">
+<span id="spectral-supervisor-websocket-websocket-control-module"></span><h1>spectral.supervisor.websocket.websocket_control module<a class="headerlink" href="#module-spectral.supervisor.websocket.websocket_control" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl">
+<em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_control.</code><code class="descname">ServerProtocolControl</code><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.twisted.websocket.WebSocketServerProtocol</span></code></p>
+<p>WebSocket protocol for processing configuration data. The protocol describes
+how various connection events should be handled so that each connected
+is able to modify system settings and gets notified of changes that other
+clients make.</p>
+<dl class="attribute">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl.factory">
+<code class="descname">factory</code><em class="property"> = None</em><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.factory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onClose">
+<code class="descname">onClose</code><span class="sig-paren">(</span><em>wasClean</em>, <em>code</em>, <em>reason</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl.onClose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onClose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the connection onClose event. Fired when the connection is
+closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onConnect">
+<code class="descname">onConnect</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl.onConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onConnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the WebSocket onConnect event. Fired when the client starts to
+connect.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onMessage">
+<code class="descname">onMessage</code><span class="sig-paren">(</span><em>payload</em>, <em>isBinary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl.onMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the connection onMessage event. Fired when the server receives
+a message. The server will decode the message, update the new settings
+and relay it to all other clients.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onOpen">
+<code class="descname">onOpen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl.onOpen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onOpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the WebSocket onOpen event. Fired when the connection is
+established. The protocol will register itself with the factory and
+push a list of current settings to the client.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory">
+<em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_control.</code><code class="descname">ServerProtocolControlFactory</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.twisted.websocket.WebSocketServerFactory</span></code></p>
+<p>Factory for creating ServerProtocolControl instances.</p>
+<p>Args:
+url: The url to start the WebSocket server on.</p>
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.buildProtocol">
+<code class="descname">buildProtocol</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.buildProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.buildProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a :class:ServerProtocolControl instance.</p>
+<p>Args:
+addr: (unused) The address of the client for this protocol.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.register">
+<code class="descname">register</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers the given client, so that it will receive updated settings.</p>
+<p>Args:
+client: The protocol instance of the client that connected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.relay">
+<code class="descname">relay</code><span class="sig-paren">(</span><em>client</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.relay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.relay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relays the given message to all registered clients.</p>
+<p>Args:
+client: The client that originally received the message to relay.
+msg: The message to relay.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.unregister">
+<code class="descname">unregister</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.unregister"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.unregister" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers the given client, so that it will stop receiving updated
+settings.</p>
+<p>Args:
+client: The :class:ServerProtocolControl instance of the client that
+connected.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="spectral.html">spectral package</a><ul>
+  <li><a href="spectral.supervisor.html">spectral.supervisor package</a><ul>
+  <li><a href="spectral.supervisor.websocket.html">spectral.supervisor.websocket package</a><ul>
+      <li>Previous: <a href="spectral.supervisor.websocket.html" title="previous chapter">spectral.supervisor.websocket package</a></li>
+      <li>Next: <a href="spectral.supervisor.websocket.websocket_data.html" title="next chapter">spectral.supervisor.websocket.websocket_data module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spectral.supervisor.websocket.websocket_control.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
+      
+      |
+      <a href="_sources/spectral.supervisor.websocket.websocket_control.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

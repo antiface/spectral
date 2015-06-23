@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spectral.core.reconstruction.wessel &mdash; Spectral  documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for spectral.core.reconstruction.wessel</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">.reconstructor</span> <span class="kn">import</span> <span class="n">Reconstructor</span>
+<span class="kn">import</span> <span class="nn">spectral</span> <span class="kn">as</span> <span class="nn">spec</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+
+
+<div class="viewcode-block" id="Wessel"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel">[docs]</a><span class="k">class</span> <span class="nc">Wessel</span><span class="p">(</span><span class="n">Reconstructor</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Implementation of Wessel&#39;s adaption of the ariananda algorithm</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        L: Maximum lag estimated in the cross-correlation of the cosets.</span>
+<span class="sd">        C: Sampling matrix used by the sampler used&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">Reconstructor</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">C</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constructR</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_pseudoinverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">))</span>
+
+    <span class="c"># Given M decimated channels, try to estimate the PSD</span>
+<div class="viewcode-block" id="Wessel.reconstruct"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.reconstruct">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reconstruct method reconstructing the autocorrelation function</span>
+<span class="sd">        from a a periodically sampled signal</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            signal: Asymptotically sampled signal.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            reconstructed autocorrelation function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_correlation_signals</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="n">ry_stacked</span> <span class="o">=</span> <span class="n">ry</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">rx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ry_stacked</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rx</span>
+</div>
+<div class="viewcode-block" id="Wessel.build_D"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.build_D">[docs]</a>    <span class="k">def</span> <span class="nf">build_D</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Builds the D matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            D matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">):</span>
+            <span class="n">D</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">D</span>
+</div>
+<div class="viewcode-block" id="Wessel.build_rcc"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.build_rcc">[docs]</a>    <span class="k">def</span> <span class="nf">build_rcc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cross_correlation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Builds the Rcc matrix based on the cross_correlation provided.</span>
+<span class="sd">        Makes use of the nature of the toeplitz generation by entering a modified</span>
+<span class="sd">        row and column vector and then &#39;cutting&#39; these to get the matrix required.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cross_correlation: The matrix containing the cross_correlations of the input signal</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Rcc matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Rcc_dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">toeplitz_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">Rcc_dim</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">cross_correlation</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="n">toeplitz_array</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_correlation</span><span class="p">)]</span> <span class="o">=</span> <span class="n">cross_correlation</span>
+        <span class="n">Rcc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">toeplitz</span><span class="p">(</span><span class="n">toeplitz_array</span><span class="p">))[:,</span> <span class="p">:</span><span class="n">Rcc_dim</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Rcc</span>
+</div>
+<div class="viewcode-block" id="Wessel.filter_cross_correlation"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.filter_cross_correlation">[docs]</a>    <span class="k">def</span> <span class="nf">filter_cross_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cross_correlations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+                                      <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>
+                <span class="n">cross_correlations</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">cross_correlate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span>
+                                                                                  <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span>
+                                                                                  <span class="n">unbiased</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cross_correlations</span>
+</div>
+<div class="viewcode-block" id="Wessel.constructR"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.constructR">[docs]</a>    <span class="k">def</span> <span class="nf">constructR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_D</span><span class="p">())</span>
+
+        <span class="n">cross_correlations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_cross_correlation</span><span class="p">()</span>
+
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+                     <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">Rcc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_rcc</span><span class="p">(</span><span class="n">cross_correlations</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">Rcc</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">Rcc</span><span class="p">)</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Rcc</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">R</span><span class="p">[:,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>  <span class="c"># Full column rank slicing</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

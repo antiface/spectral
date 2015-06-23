@@ -1,0 +1,7 @@
+spectral.core.sampling.multicoset module
+========================================
+
+.. automodule:: spectral.core.sampling.multicoset
+    :members:
+    :undoc-members:
+    :show-inheritance:

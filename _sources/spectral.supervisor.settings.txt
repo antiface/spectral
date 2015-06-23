@@ -1,0 +1,17 @@
+spectral.supervisor.settings package
+====================================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.supervisor.settings.settings
+
+Module contents
+---------------
+
+.. automodule:: spectral.supervisor.settings
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+spectral.supervisor.multiprocessing.queue module
+================================================
+
+.. automodule:: spectral.supervisor.multiprocessing.queue
+    :members:
+    :undoc-members:
+    :show-inheritance:

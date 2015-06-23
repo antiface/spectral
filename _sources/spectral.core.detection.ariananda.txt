@@ -1,0 +1,7 @@
+spectral.core.detection.ariananda module
+========================================
+
+.. automodule:: spectral.core.detection.ariananda
+    :members:
+    :undoc-members:
+    :show-inheritance:

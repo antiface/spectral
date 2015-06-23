@@ -1,0 +1,27 @@
+spectral.core package
+=====================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    spectral.core.detection
+    spectral.core.reconstruction
+    spectral.core.sampling
+    spectral.core.source
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.core.helperfunctions
+
+Module contents
+---------------
+
+.. automodule:: spectral.core
+    :members:
+    :undoc-members:
+    :show-inheritance:

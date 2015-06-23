@@ -1,0 +1,26 @@
+spectral.supervisor package
+===========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    spectral.supervisor.multiprocessing
+    spectral.supervisor.settings
+    spectral.supervisor.websocket
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.supervisor.helperfunctions
+
+Module contents
+---------------
+
+.. automodule:: spectral.supervisor
+    :members:
+    :undoc-members:
+    :show-inheritance:

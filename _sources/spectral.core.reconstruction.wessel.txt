@@ -1,0 +1,7 @@
+spectral.core.reconstruction.wessel module
+==========================================
+
+.. automodule:: spectral.core.reconstruction.wessel
+    :members:
+    :undoc-members:
+    :show-inheritance:

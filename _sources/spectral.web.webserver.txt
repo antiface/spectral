@@ -1,0 +1,19 @@
+spectral.web.webserver package
+==============================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.web.webserver.content
+   spectral.web.webserver.elements
+   spectral.web.webserver.flaskr
+
+Module contents
+---------------
+
+.. automodule:: spectral.web.webserver
+    :members:
+    :undoc-members:
+    :show-inheritance:

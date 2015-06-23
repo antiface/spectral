@@ -1,0 +1,7 @@
+spectral.supervisor.settings.settings module
+============================================
+
+.. automodule:: spectral.supervisor.settings.settings
+    :members:
+    :undoc-members:
+    :show-inheritance:

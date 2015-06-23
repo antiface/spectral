@@ -1,0 +1,23 @@
+spectral.core.source package
+============================
+
+Submodules
+----------
+
+.. toctree::
+
+   spectral.core.source.complex_exponential
+   spectral.core.source.filesource
+   spectral.core.source.rect
+   spectral.core.source.simulatedsource
+   spectral.core.source.sinusoidal
+   spectral.core.source.source
+   spectral.core.source.usrp_n210
+
+Module contents
+---------------
+
+.. automodule:: spectral.core.source
+    :members:
+    :undoc-members:
+    :show-inheritance:
