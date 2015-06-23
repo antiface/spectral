@@ -8,8 +8,8 @@
     
     <title>spectral.core.sampling.coprime module &mdash; Spectral  documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -20,9 +20,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="Spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.core.sampling package" href="spectral.core.sampling.html" />
     <link rel="next" title="spectral.core.sampling.minimalsparse module" href="spectral.core.sampling.minimalsparse.html" />
@@ -49,24 +49,39 @@
 multi-coset class and implements its own (coprime) intervals.
 These intervals are based on two samplers with Fs1/Fs2 = a/b with
 a and b the coprime numbers.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>a: First coprime number
-b: Second coprime number</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; First coprime number</li>
+<li><strong>b</strong> &#8211; Second coprime number</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.core.sampling.coprime.Coprime.coprime_multiples">
 <code class="descname">coprime_multiples</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/sampling/coprime.html#Coprime.coprime_multiples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.sampling.coprime.Coprime.coprime_multiples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generator function that generates a integer multiples
 of the coprime numbers starting with zero (in order of size)
 until all multiples smaller than a * b are returned</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>a: first coprime number
-b: second coprime number</dd>
-<dt>Yields:</dt>
-<dd>x in ((n*a) union (n*b)) for n in [0, 1, ...] and x &lt; a * b</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> &#8211; first coprime number</li>
+<li><strong>b</strong> &#8211; second coprime number</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last">x in ((n*a) union (n*b)) for n in [0, 1, ...] and x &lt; a * b</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -96,7 +111,7 @@ b: second coprime number</dd>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/spectral.core.sampling.coprime.txt"
+      <li><a href="sources/spectral.core.sampling.coprime.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -122,10 +137,10 @@ b: second coprime number</dd>
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="_sources/spectral.core.sampling.coprime.txt"
+      <a href="sources/spectral.core.sampling.coprime.txt"
           rel="nofollow">Page source</a>
     </div>
 
