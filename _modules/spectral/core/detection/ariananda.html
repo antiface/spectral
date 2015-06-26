@@ -170,7 +170,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            sigma: noise sigma</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            gamma_k: Threshold for the noise</span>
+<span class="sd">            gamma_k, the threshold for the noise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">psd_exp</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qinv</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">triangle</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span>

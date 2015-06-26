@@ -78,13 +78,14 @@ Performs the decimation of the reconstruction algorithm.</p>
 <code class="descname">build_rcc</code><span class="sig-paren">(</span><em>cross_correlation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/wessel.html#Wessel.build_rcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.wessel.Wessel.build_rcc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the Rcc matrix based on the cross_correlation provided.
 Makes use of the nature of the toeplitz generation by entering a modified
-row and column vector and then &#8216;cutting&#8217; these to get the matrix required.
-:param cross_correlation: The matrix containing the cross_correlations of the input signal</p>
+row and column vector and then &#8216;cutting&#8217; these to get the matrix required.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Rcc matrix.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cross_correlation</strong> &#8211; The matrix containing the cross_correlations of the input signal</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Rcc matrix.</td>
 </tr>
 </tbody>
 </table>
