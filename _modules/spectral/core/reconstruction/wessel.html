@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.reconstruction.wessel &mdash; Spectral  documentation</title>
+    <title>spectral.core.reconstruction.wessel &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
   
@@ -69,7 +69,7 @@
     <span class="c"># Given M decimated channels, try to estimate the PSD</span>
 <div class="viewcode-block" id="Wessel.reconstruct"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.reconstruct">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Reconstruct method reconstructing the autocorrelation function</span>
-<span class="sd">        from a a periodically sampled signal</span>
+<span class="sd">        from non-uniform sampled signal</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            signal: Asymptotically sampled signal.</span>
@@ -83,7 +83,8 @@
         <span class="k">return</span> <span class="n">rx</span>
 </div>
 <div class="viewcode-block" id="Wessel.build_D"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.build_D">[docs]</a>    <span class="k">def</span> <span class="nf">build_D</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Builds the D matrix.</span>
+        <span class="sd">&quot;&quot;&quot; Builds the D matrix. Helperfunctions for constructing R.</span>
+<span class="sd">        Performs the decimation of the reconstruction algorithm.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            D matrix</span>
@@ -109,6 +110,12 @@
         <span class="k">return</span> <span class="n">Rcc</span>
 </div>
 <div class="viewcode-block" id="Wessel.filter_cross_correlation"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.filter_cross_correlation">[docs]</a>    <span class="k">def</span> <span class="nf">filter_cross_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the filter correlations</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Correlation matrix of cosets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cross_correlations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
                                       <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>
@@ -119,6 +126,12 @@
         <span class="k">return</span> <span class="n">cross_correlations</span>
 </div>
 <div class="viewcode-block" id="Wessel.constructR"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.wessel.html#spectral.core.reconstruction.wessel.Wessel.constructR">[docs]</a>    <span class="k">def</span> <span class="nf">constructR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs the R matrix as described in the reconstruction algorithm.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Returns the R matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">D</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_D</span><span class="p">())</span>
 
         <span class="n">cross_correlations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_cross_correlation</span><span class="p">()</span>
@@ -164,11 +177,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

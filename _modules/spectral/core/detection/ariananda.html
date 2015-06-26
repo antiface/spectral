@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.detection.ariananda &mdash; Spectral  documentation</title>
+    <title>spectral.core.detection.ariananda &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
   
@@ -46,8 +46,18 @@
 
 <div class="viewcode-block" id="Ariananda"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda">[docs]</a><span class="k">class</span> <span class="nc">Ariananda</span><span class="p">(</span><span class="n">Detector</span><span class="p">):</span>
 
-    <span class="s">&quot;Estimated Noise Power Energy Detector&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ariananda 2012 detector.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        L: Maximum lag estimation.</span>
+<span class="sd">        K: Upscale factor.</span>
+<span class="sd">        C: Sampling matrix.</span>
+<span class="sd">        R_pinv: Pseudo-inverse of the reconstructor.</span>
+<span class="sd">        filter_correlations: Correlations of the sampler filters.</span>
+<span class="sd">        window_length: Window size used to determine sigma.</span>
+<span class="sd">        Pfa: False alarm rate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">R_pinv</span><span class="p">,</span> <span class="n">filter_correlations</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">Pfa</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">K</span>
@@ -69,23 +79,55 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">psd_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ry_exp</span><span class="p">)))</span>
 
 <div class="viewcode-block" id="Ariananda.detect"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.detect">[docs]</a>    <span class="k">def</span> <span class="nf">detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Detects a signal on autocorrelation signal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rx: Autocorrelation of signal.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Logical array with information which bins contain information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">psd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">rx</span><span class="p">))</span>
         <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_sigma</span><span class="p">(</span><span class="n">psd</span><span class="p">)</span>
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_threshold</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">psd</span> <span class="o">&gt;</span> <span class="n">threshold</span>
 </div>
 <div class="viewcode-block" id="Ariananda.generate_ryexp"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.generate_ryexp">[docs]</a>    <span class="k">def</span> <span class="nf">generate_ryexp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the expected autocorrelation. Helperfunction for the constructor.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Expected autocorrelation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ry_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
         <span class="n">ry_exp</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rc</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">ry_exp</span> <span class="o">=</span> <span class="n">ry_exp</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ry_exp</span>
 </div>
 <div class="viewcode-block" id="Ariananda.generate_Csx"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.generate_Csx">[docs]</a>    <span class="k">def</span> <span class="nf">generate_Csx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C_ry</span><span class="p">,</span> <span class="n">R_pinv</span><span class="p">,</span> <span class="n">R_pinv_h</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the Csx matrix. Helperfunction for the constructor.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            C_ry: C_ry matrix.</span>
+<span class="sd">            R_pinv: Pseudo-inverse from the reconstructor.</span>
+<span class="sd">            R_pinv_h: Hermitian of pseudo-inverse.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Csx matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
         <span class="n">dft</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">dft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">C_sx</span> <span class="o">=</span> <span class="n">dft</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C_ry</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_pinv_h</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">hermitian</span><span class="p">(</span><span class="n">dft</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">C_sx</span>
 </div>
 <div class="viewcode-block" id="Ariananda.generate_Cry"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.generate_Cry">[docs]</a>    <span class="k">def</span> <span class="nf">generate_Cry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate Cry. Helper function for the constructor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Cry</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">C_ry</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
         <span class="n">lag_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
@@ -106,6 +148,14 @@
         <span class="k">return</span> <span class="n">C_ry</span>
 </div>
 <div class="viewcode-block" id="Ariananda.estimate_sigma"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.estimate_sigma">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psd</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that estimates noise sigma.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            psd: power spectral density of input signal.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            sigma of the noise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">noise_estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">psd</span><span class="p">))</span>
         <span class="c"># Sliding window over frequency bins</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">psd</span><span class="p">)):</span>
@@ -115,11 +165,25 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">noise_estimate</span><span class="p">))</span>  <span class="c"># /len(psd)</span>
 </div>
 <div class="viewcode-block" id="Ariananda.calc_threshold"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.calc_threshold">[docs]</a>    <span class="k">def</span> <span class="nf">calc_threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that calculates the gamma k threshold.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            sigma: noise sigma</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            gamma_k: Threshold for the noise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">psd_exp</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qinv</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">triangle</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span>
         <span class="k">return</span> <span class="n">threshold</span>
 </div>
 <div class="viewcode-block" id="Ariananda.parse_options"><a class="viewcode-back" href="../../../../spectral.core.detection.ariananda.html#spectral.core.detection.ariananda.Ariananda.parse_options">[docs]</a>    <span class="k">def</span> <span class="nf">parse_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that parses options for the detector. Detector takes the</span>
+<span class="sd">        window_length and Pfa keys.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            options: Dictionary containing the settings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&quot;window_length&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s">&quot;window_length&quot;</span><span class="p">]</span>
@@ -158,11 +222,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

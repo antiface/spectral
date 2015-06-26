@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.reconstruction.wessel module &mdash; Spectral  documentation</title>
+    <title>spectral.core.reconstruction.wessel module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.core.reconstruction package" href="spectral.core.reconstruction.html" />
     <link rel="next" title="spectral.core.sampling package" href="spectral.core.sampling.html" />
     <link rel="prev" title="spectral.core.reconstruction.reconstructor module" href="spectral.core.reconstruction.reconstructor.html" />
@@ -61,7 +61,8 @@
 <dl class="method">
 <dt id="spectral.core.reconstruction.wessel.Wessel.build_D">
 <code class="descname">build_D</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/wessel.html#Wessel.build_D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.wessel.Wessel.build_D" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds the D matrix.</p>
+<dd><p>Builds the D matrix. Helperfunctions for constructing R.
+Performs the decimation of the reconstruction algorithm.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -92,18 +93,36 @@ row and column vector and then &#8216;cutting&#8217; these to get the matrix req
 <dl class="method">
 <dt id="spectral.core.reconstruction.wessel.Wessel.constructR">
 <code class="descname">constructR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/wessel.html#Wessel.constructR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.wessel.Wessel.constructR" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Constructs the R matrix as described in the reconstruction algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the R matrix.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.wessel.Wessel.filter_cross_correlation">
 <code class="descname">filter_cross_correlation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/wessel.html#Wessel.filter_cross_correlation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.wessel.Wessel.filter_cross_correlation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the filter correlations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Correlation matrix of cosets</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.wessel.Wessel.reconstruct">
 <code class="descname">reconstruct</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/wessel.html#Wessel.reconstruct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.wessel.Wessel.reconstruct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reconstruct method reconstructing the autocorrelation function
-from a a periodically sampled signal</p>
+from non-uniform sampled signal</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -165,11 +184,11 @@ from a a periodically sampled signal</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.core.reconstruction.wessel.txt"

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.websocket.websocket_data &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.websocket.websocket_data &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
   
@@ -45,7 +45,11 @@
 
 <div class="viewcode-block" id="ServerProtocolData"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData">[docs]</a><span class="k">class</span> <span class="nc">ServerProtocolData</span><span class="p">(</span><span class="n">WebSocketServerProtocol</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;WebSocket protocol for pushing plot data&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    WebSocket protocol for processing plot data. The protocol describes</span>
+<span class="sd">    how various connection events should be handled so that each connected</span>
+<span class="sd">    client may receive the most recent data from :mod:spectral.core.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">SRC_DATA</span> <span class="o">=</span> <span class="s">&#39;src_data&#39;</span>
     <span class="n">REC_DATA</span> <span class="o">=</span> <span class="s">&#39;rec_data&#39;</span>
@@ -61,6 +65,12 @@
         <span class="n">WebSocketServerProtocol</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ServerProtocolData.pushData"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.pushData">[docs]</a>    <span class="k">def</span> <span class="nf">pushData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pushes the requested data to the client.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request: The requested data type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">dequeue</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_options</span><span class="p">()</span>
 
@@ -69,18 +79,49 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">sendMessage</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
 </div>
 <div class="viewcode-block" id="ServerProtocolData.onOpen"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onOpen">[docs]</a>    <span class="k">def</span> <span class="nf">onOpen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the WebSocket onOpen event. Fired when the connection is</span>
+<span class="sd">        established.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;WebSocket connection open.&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ServerProtocolData.onConnect"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onConnect">[docs]</a>    <span class="k">def</span> <span class="nf">onConnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the WebSocket onConnect event. Fired when the client starts to</span>
+<span class="sd">        connect.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request: The request object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;Client connecting: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">peer</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="ServerProtocolData.onMessage"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onMessage">[docs]</a>    <span class="k">def</span> <span class="nf">onMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">isBinary</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the connection onMessage event. Fired when the server receives</span>
+<span class="sd">        a message. Will push the requested data to the requesting client.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            payload: The message content.</span>
+<span class="sd">            isBinary: Whether the payload is binary encoded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pushData</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ServerProtocolData.onClose"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onClose">[docs]</a>    <span class="k">def</span> <span class="nf">onClose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wasClean</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerProtocolData.onClose"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onClose">[docs]</a>    <span class="k">def</span> <span class="nf">onClose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wasClean</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>        
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the connection onClose event. Fired when the connection is</span>
+<span class="sd">        closed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wasClean: Whether the connection closed cleanly.</span>
+<span class="sd">            code: The closing code.</span>
+<span class="sd">            reason: The reason for closing the connection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;WebSocket connection closed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reason</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="ServerProtocolData.update_options"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolData.update_options">[docs]</a>    <span class="k">def</span> <span class="nf">update_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the local settings using the :class:Settings class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;center_freq&#39;</span><span class="p">:</span>
@@ -91,7 +132,16 @@
 </div></div>
 <div class="viewcode-block" id="ServerProtocolDataFactory"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory">[docs]</a><span class="k">class</span> <span class="nc">ServerProtocolDataFactory</span><span class="p">(</span><span class="n">WebSocketServerFactory</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Factory for creating ServerProtocolPlot instances&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory for creating :class:ServerProtocolData instances.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        url: The url to start the WebSocket server on.</span>
+<span class="sd">        src_queue: The queue to read source data from.</span>
+<span class="sd">        rec_queue: The queue to read reconstruction data from.</span>
+<span class="sd">        det_queue: The queue to read detection data from.</span>
+<span class="sd">        sample_freq: The sample frequency for all data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">src_queue</span><span class="p">,</span> <span class="n">rec_queue</span><span class="p">,</span> <span class="n">det_queue</span><span class="p">,</span> <span class="n">sample_freq</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample_freq</span> <span class="o">=</span> <span class="n">sample_freq</span>
@@ -109,12 +159,25 @@
         <span class="n">WebSocketServerFactory</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ServerProtocolDataFactory.buildProtocol"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory.buildProtocol">[docs]</a>    <span class="k">def</span> <span class="nf">buildProtocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds a :class:ServerProtocolData instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            addr: (unused) The address of the client for this protocol.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">protocol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">()</span>
         <span class="n">protocol</span><span class="o">.</span><span class="n">sample_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_freq</span>
         <span class="n">protocol</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="n">protocol</span>
 </div>
 <div class="viewcode-block" id="ServerProtocolDataFactory.dequeue"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory.dequeue">[docs]</a>    <span class="k">def</span> <span class="nf">dequeue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Receive the latest data from the given queue and put it in the</span>
+<span class="sd">        correct buffer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request: The requested data type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">request</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffers</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid request: &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
 
@@ -127,7 +190,15 @@
 </div></div>
 <div class="viewcode-block" id="PlotDataContainer"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.PlotDataContainer">[docs]</a><span class="k">class</span> <span class="nc">PlotDataContainer</span><span class="p">:</span>
 
-    <span class="sd">&quot;&quot;&quot;Class containing the data that should be sent to client for plotting&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class containing the data that should be sent to client for plotting.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sample_freq: The sample frequency for the data.</span>
+<span class="sd">        center_freq: The center_freq for the data.</span>
+<span class="sd">        dtype: The datatype.</span>
+<span class="sd">        data: The data itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_freq</span><span class="p">,</span> <span class="n">center_freq</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample_freq</span> <span class="o">=</span> <span class="n">sample_freq</span>
@@ -139,14 +210,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
 
+
 <div class="viewcode-block" id="PlotDataContainer.encode"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.PlotDataContainer.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a JSON dump of itself, UTF-8 encoded.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The encoded string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
 
 </div></div>
 <div class="viewcode-block" id="WebsocketDataContainer"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.WebsocketDataContainer">[docs]</a><span class="k">class</span> <span class="nc">WebsocketDataContainer</span><span class="p">:</span>
 
-    <span class="sd">&quot;&quot;&quot;Class containing the data that is used by the websocket for plotting&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class containing the data that is used by the websocket for plotting.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dtype: The datatype.</span>
+<span class="sd">        data: The data itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ServerProtocolData</span><span class="o">.</span><span class="n">datatypes</span><span class="p">:</span>
@@ -156,6 +240,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="WebsocketDataContainer.enqueue"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_data.html#spectral.supervisor.websocket.websocket_data.WebsocketDataContainer.enqueue">[docs]</a>    <span class="k">def</span> <span class="nf">enqueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enqueues itself in the given queue.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            queue: The queue to enqueue in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">queue</span><span class="o">.</span><span class="n">queue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -190,11 +280,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.detection.ariananda module &mdash; Spectral  documentation</title>
+    <title>spectral.core.detection.ariananda module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.core.detection package" href="spectral.core.detection.html" />
     <link rel="next" title="spectral.core.detection.detector module" href="spectral.core.detection.detector.html" />
     <link rel="prev" title="spectral.core.detection package" href="spectral.core.detection.html" />
@@ -45,41 +45,125 @@
 <dt id="spectral.core.detection.ariananda.Ariananda">
 <em class="property">class </em><code class="descclassname">spectral.core.detection.ariananda.</code><code class="descname">Ariananda</code><span class="sig-paren">(</span><em>L</em>, <em>K</em>, <em>C</em>, <em>R_pinv</em>, <em>filter_correlations</em>, <em>window_length=50</em>, <em>Pfa=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="spectral.core.detection.detector.html#spectral.core.detection.detector.Detector" title="spectral.core.detection.detector.Detector"><code class="xref py py-class docutils literal"><span class="pre">spectral.core.detection.detector.Detector</span></code></a></p>
-<p>Estimated Noise Power Energy Detector</p>
+<p>Ariananda 2012 detector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>L</strong> &#8211; Maximum lag estimation.</li>
+<li><strong>K</strong> &#8211; Upscale factor.</li>
+<li><strong>C</strong> &#8211; Sampling matrix.</li>
+<li><strong>R_pinv</strong> &#8211; Pseudo-inverse of the reconstructor.</li>
+<li><strong>filter_correlations</strong> &#8211; Correlations of the sampler filters.</li>
+<li><strong>window_length</strong> &#8211; Window size used to determine sigma.</li>
+<li><strong>Pfa</strong> &#8211; False alarm rate.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.calc_threshold">
 <code class="descname">calc_threshold</code><span class="sig-paren">(</span><em>sigma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.calc_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.calc_threshold" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Function that calculates the gamma k threshold.
+:param sigma: noise sigma</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Threshold for the noise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">gamma_k</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.detect">
 <code class="descname">detect</code><span class="sig-paren">(</span><em>rx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.detect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Detects a signal on autocorrelation signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rx</strong> &#8211; Autocorrelation of signal.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Logical array with information which bins contain information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.estimate_sigma">
 <code class="descname">estimate_sigma</code><span class="sig-paren">(</span><em>psd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.estimate_sigma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.estimate_sigma" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Function that estimates noise sigma.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>psd</strong> &#8211; power spectral density of input signal.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">sigma of the noise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.generate_Cry">
 <code class="descname">generate_Cry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.generate_Cry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.generate_Cry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate Cry. Helper function for the constructor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Cry</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.generate_Csx">
 <code class="descname">generate_Csx</code><span class="sig-paren">(</span><em>C_ry</em>, <em>R_pinv</em>, <em>R_pinv_h</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.generate_Csx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.generate_Csx" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates the Csx matrix. Helperfunction for the constructor.
+:param C_ry: C_ry matrix.
+:param R_pinv: Pseudo-inverse from the reconstructor.
+:param R_pinv_h: Hermitian of pseudo-inverse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Csx matrix.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.generate_ryexp">
 <code class="descname">generate_ryexp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.generate_ryexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.generate_ryexp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates the expected autocorrelation. Helperfunction for the constructor.
+:returns: Expected autocorrelation.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.detection.ariananda.Ariananda.parse_options">
 <code class="descname">parse_options</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/detection/ariananda.html#Ariananda.parse_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.detection.ariananda.Ariananda.parse_options" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Function that parses options for the detector. Detector takes the
+window_length and Pfa keys.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> &#8211; Dictionary containing the settings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -130,11 +214,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.core.detection.ariananda.txt"

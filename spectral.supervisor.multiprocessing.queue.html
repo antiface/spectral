@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.multiprocessing.queue module &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.multiprocessing.queue module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.supervisor.multiprocessing package" href="spectral.supervisor.multiprocessing.html" />
     <link rel="next" title="spectral.supervisor.settings package" href="spectral.supervisor.settings.html" />
     <link rel="prev" title="spectral.supervisor.multiprocessing package" href="spectral.supervisor.multiprocessing.html" />
@@ -46,15 +46,43 @@
 <em class="property">class </em><code class="descclassname">spectral.supervisor.multiprocessing.queue.</code><code class="descname">SafeQueue</code><span class="sig-paren">(</span><em>size=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/multiprocessing/queue.html#SafeQueue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.multiprocessing.queue.SafeQueue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Safe Queue implementation is a wrapper around standard multiprocessing
 queue. Implements safe queuing and dequeueing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> &#8211; Optional argument that defines size of queue (default is 10).</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.supervisor.multiprocessing.queue.SafeQueue.dequeue">
 <code class="descname">dequeue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/multiprocessing/queue.html#SafeQueue.dequeue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.multiprocessing.queue.SafeQueue.dequeue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method that wraps around get. Implements a lock to ensure race
+conditions are avoided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Last value in queue, if queue is empty returns None.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.multiprocessing.queue.SafeQueue.queue">
 <code class="descname">queue</code><span class="sig-paren">(</span><em>inp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/multiprocessing/queue.html#SafeQueue.queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.multiprocessing.queue.SafeQueue.queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method that wraps around put. Implements a lock to ensure race
+conditions are avoided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inp</strong> &#8211; Value to be queued.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -105,11 +133,11 @@ queue. Implements safe queuing and dequeueing.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.supervisor.multiprocessing.queue.txt"

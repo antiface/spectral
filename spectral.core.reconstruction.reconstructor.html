@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.reconstruction.reconstructor module &mdash; Spectral  documentation</title>
+    <title>spectral.core.reconstruction.reconstructor module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.core.reconstruction package" href="spectral.core.reconstruction.html" />
     <link rel="next" title="spectral.core.reconstruction.wessel module" href="spectral.core.reconstruction.wessel.html" />
     <link rel="prev" title="spectral.core.reconstruction.crosscorr module" href="spectral.core.reconstruction.crosscorr.html" />
@@ -49,47 +49,140 @@
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.cache_pseudoinverse">
 <code class="descname">cache_pseudoinverse</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.cache_pseudoinverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.cache_pseudoinverse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Caching function for the pseudoinverse</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sparse</strong> &#8211; Sparse matrix to be cached.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.calc_pseudoinverse">
 <code class="descname">calc_pseudoinverse</code><span class="sig-paren">(</span><em>R</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.calc_pseudoinverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.calc_pseudoinverse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Wrapper around scipy&#8217;s pinv. Implements a caching mechanism.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>R</strong> &#8211; Input R matrix</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">inverse of said R matrix.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">R_pinv</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.check_valid_pinv">
 <code class="descname">check_valid_pinv</code><span class="sig-paren">(</span><em>Mat</em>, <em>Pinv</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.check_valid_pinv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.check_valid_pinv" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Verifies if matrix is valid inverse of another matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mat</strong> &#8211; Matrix.</li>
+<li><strong>Pinv</strong> &#8211; Potential inverse of said matrix.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Bool which verifies if it is a valid pseudoinverse.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.cross_correlation_signals">
 <code class="descname">cross_correlation_signals</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.cross_correlation_signals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.cross_correlation_signals" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Matrix style cross correlation calculation.
+Does a cyclic shift aswell as unbiasing the correlations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>signal</strong> &#8211; Input signal.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Matrix of cross-correlations of the inputsignal.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.get_Rpinv">
 <code class="descname">get_Rpinv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.get_Rpinv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.get_Rpinv" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Getter function for pinv.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the numpy representation of the R_pinv</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.get_filename">
 <code class="descname">get_filename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.get_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.get_filename" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Defines the filename for different input parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Filename which contains different input parameters and the name of
+the reconstructor used.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.get_non_zero_column">
 <code class="descname">get_non_zero_column</code><span class="sig-paren">(</span><em>matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.get_non_zero_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.get_non_zero_column" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the number of nonzero columns from the matrix.
+Unfortunate side effect of not having implicit access to the ruler
+that was used for the sampling matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>matrix</strong> &#8211; Matrix to be checked</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Set containing non zero colums.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.load_pseudoinverse">
 <code class="descname">load_pseudoinverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.load_pseudoinverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.load_pseudoinverse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Load the pseudoinverse from the cache.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Sparse matrix from cache</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.reconstructor.Reconstructor.reconstruct">
 <code class="descname">reconstruct</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/reconstructor.html#Reconstructor.reconstruct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.reconstructor.Reconstructor.reconstruct" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Contract for the reconstruct method
+:raises: <code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code> &#8211;</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -140,11 +233,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.core.reconstruction.reconstructor.txt"

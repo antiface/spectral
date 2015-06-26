@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.helperfunctions &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.helperfunctions &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
   
@@ -46,15 +46,36 @@
 
 
 <div class="viewcode-block" id="get_settings_object"><a class="viewcode-back" href="../../../spectral.supervisor.helperfunctions.html#spectral.supervisor.helperfunctions.get_settings_object">[docs]</a><span class="k">def</span> <span class="nf">get_settings_object</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the Pyro4 proxy for the core settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Pyro4 Proxy instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Pyro4</span><span class="o">.</span><span class="n">Proxy</span><span class="p">(</span><span class="s">&quot;PYRONAME:sc.settings&quot;</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="send_to_websocket"><a class="viewcode-back" href="../../../spectral.supervisor.helperfunctions.html#spectral.supervisor.helperfunctions.send_to_websocket">[docs]</a><span class="k">def</span> <span class="nf">send_to_websocket</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wraps the data in an :class:WebsocketDataContainer and enqueues it for </span>
+<span class="sd">    the WebSocket.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        queue: The queue to put the data in.</span>
+<span class="sd">        data: The data itself.</span>
+<span class="sd">        dtype: The datatype.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">supervisor</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">WebsocketDataContainer</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
     <span class="n">container</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="websocket_control"><a class="viewcode-back" href="../../../spectral.supervisor.helperfunctions.html#spectral.supervisor.helperfunctions.websocket_control">[docs]</a><span class="k">def</span> <span class="nf">websocket_control</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts the WebSocket in charge of handling system settings.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        port: The port to start the server on.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log</span><span class="o">.</span><span class="n">startLogging</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
     <span class="n">factory</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">supervisor</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">ServerProtocolControlFactory</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;ws://localhost:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="p">))</span>
     <span class="n">factory</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">supervisor</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">ServerProtocolControl</span>
@@ -63,6 +84,16 @@
 
 </div>
 <div class="viewcode-block" id="websocket_data"><a class="viewcode-back" href="../../../spectral.supervisor.helperfunctions.html#spectral.supervisor.helperfunctions.websocket_data">[docs]</a><span class="k">def</span> <span class="nf">websocket_data</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">src_queue</span><span class="p">,</span> <span class="n">rec_queue</span><span class="p">,</span> <span class="n">det_queue</span><span class="p">,</span> <span class="n">sample_freq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts the WebSocket in charge of handling plot data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        port: The port to start the server on.</span>
+<span class="sd">        src_queue: The queue to read source data from.</span>
+<span class="sd">        rec_queue: The queue to read reconstruction data from.</span>
+<span class="sd">        det_queue: The queue to read detection data from.</span>
+<span class="sd">        sample_freq: The sample frequency for all data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log</span><span class="o">.</span><span class="n">startLogging</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
     <span class="n">factory</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">supervisor</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">ServerProtocolDataFactory</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;ws://localhost:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="p">),</span>
                                                                   <span class="n">src_queue</span><span class="o">=</span><span class="n">src_queue</span><span class="p">,</span>
@@ -106,11 +137,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

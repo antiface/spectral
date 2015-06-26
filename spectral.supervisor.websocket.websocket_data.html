@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.websocket.websocket_data module &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.websocket.websocket_data module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.supervisor.websocket package" href="spectral.supervisor.websocket.html" />
     <link rel="next" title="spectral.supervisor.helperfunctions module" href="spectral.supervisor.helperfunctions.html" />
     <link rel="prev" title="spectral.supervisor.websocket.websocket_control module" href="spectral.supervisor.websocket.websocket_control.html" />
@@ -44,11 +44,34 @@
 <dl class="class">
 <dt id="spectral.supervisor.websocket.websocket_data.PlotDataContainer">
 <em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_data.</code><code class="descname">PlotDataContainer</code><span class="sig-paren">(</span><em>sample_freq</em>, <em>center_freq</em>, <em>dtype</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#PlotDataContainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.PlotDataContainer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class containing the data that should be sent to client for plotting</p>
+<dd><p>Class containing the data that should be sent to client for plotting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sample_freq</strong> &#8211; The sample frequency for the data.</li>
+<li><strong>center_freq</strong> &#8211; The center_freq for the data.</li>
+<li><strong>dtype</strong> &#8211; The datatype.</li>
+<li><strong>data</strong> &#8211; The data itself.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.PlotDataContainer.encode">
 <code class="descname">encode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#PlotDataContainer.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.PlotDataContainer.encode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns a JSON dump of itself, UTF-8 encoded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The encoded string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -56,7 +79,9 @@
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData">
 <em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_data.</code><code class="descname">ServerProtocolData</code><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.twisted.websocket.WebSocketServerProtocol</span></code></p>
-<p>WebSocket protocol for pushing plot data</p>
+<p>WebSocket protocol for processing plot data. The protocol describes
+how various connection events should be handled so that each connected
+client may receive the most recent data from :mod:spectral.core.</p>
 <dl class="attribute">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.DET_DATA">
 <code class="descname">DET_DATA</code><em class="property"> = 'det_data'</em><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.DET_DATA" title="Permalink to this definition">¶</a></dt>
@@ -85,27 +110,77 @@
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.onClose">
 <code class="descname">onClose</code><span class="sig-paren">(</span><em>wasClean</em>, <em>code</em>, <em>reason</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData.onClose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onClose" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Handles the connection onClose event. Fired when the connection is
+closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>wasClean</strong> &#8211; Whether the connection closed cleanly.</li>
+<li><strong>code</strong> &#8211; The closing code.</li>
+<li><strong>reason</strong> &#8211; The reason for closing the connection.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.onConnect">
 <code class="descname">onConnect</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData.onConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onConnect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Handles the WebSocket onConnect event. Fired when the client starts to
+connect.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> &#8211; The request object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.onMessage">
 <code class="descname">onMessage</code><span class="sig-paren">(</span><em>payload</em>, <em>isBinary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData.onMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onMessage" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Handles the connection onMessage event. Fired when the server receives
+a message. Will push the requested data to the requesting client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>payload</strong> &#8211; The message content.</li>
+<li><strong>isBinary</strong> &#8211; Whether the payload is binary encoded.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.onOpen">
 <code class="descname">onOpen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData.onOpen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.onOpen" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Handles the WebSocket onOpen event. Fired when the connection is
+established.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.pushData">
 <code class="descname">pushData</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData.pushData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.pushData" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Pushes the requested data to the client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> &#8211; The requested data type.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.sample_freq">
@@ -115,7 +190,8 @@
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolData.update_options">
 <code class="descname">update_options</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolData.update_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolData.update_options" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Updates the local settings using the :class:Settings class.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -123,27 +199,82 @@
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory">
 <em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_data.</code><code class="descname">ServerProtocolDataFactory</code><span class="sig-paren">(</span><em>url</em>, <em>src_queue</em>, <em>rec_queue</em>, <em>det_queue</em>, <em>sample_freq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolDataFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.twisted.websocket.WebSocketServerFactory</span></code></p>
-<p>Factory for creating ServerProtocolPlot instances</p>
+<p>Factory for creating :class:ServerProtocolData instances.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> &#8211; The url to start the WebSocket server on.</li>
+<li><strong>src_queue</strong> &#8211; The queue to read source data from.</li>
+<li><strong>rec_queue</strong> &#8211; The queue to read reconstruction data from.</li>
+<li><strong>det_queue</strong> &#8211; The queue to read detection data from.</li>
+<li><strong>sample_freq</strong> &#8211; The sample frequency for all data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory.buildProtocol">
 <code class="descname">buildProtocol</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolDataFactory.buildProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory.buildProtocol" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Builds a :class:ServerProtocolData instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>addr</strong> &#8211; (unused) The address of the client for this protocol.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory.dequeue">
 <code class="descname">dequeue</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#ServerProtocolDataFactory.dequeue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.ServerProtocolDataFactory.dequeue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Receive the latest data from the given queue and put it in the
+correct buffer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> &#8211; The requested data type.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="spectral.supervisor.websocket.websocket_data.WebsocketDataContainer">
 <em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_data.</code><code class="descname">WebsocketDataContainer</code><span class="sig-paren">(</span><em>dtype</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#WebsocketDataContainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.WebsocketDataContainer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class containing the data that is used by the websocket for plotting</p>
+<dd><p>Class containing the data that is used by the websocket for plotting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dtype</strong> &#8211; The datatype.</li>
+<li><strong>data</strong> &#8211; The data itself.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_data.WebsocketDataContainer.enqueue">
 <code class="descname">enqueue</code><span class="sig-paren">(</span><em>queue</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_data.html#WebsocketDataContainer.enqueue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_data.WebsocketDataContainer.enqueue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Enqueues itself in the given queue.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>queue</strong> &#8211; The queue to enqueue in.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -194,11 +325,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.supervisor.websocket.websocket_data.txt"

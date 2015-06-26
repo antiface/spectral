@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.websocket.websocket_control module &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.websocket.websocket_control module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.supervisor.websocket package" href="spectral.supervisor.websocket.html" />
     <link rel="next" title="spectral.supervisor.websocket.websocket_data module" href="spectral.supervisor.websocket.websocket_data.html" />
     <link rel="prev" title="spectral.supervisor.websocket package" href="spectral.supervisor.websocket.html" />
@@ -47,7 +47,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.twisted.websocket.WebSocketServerProtocol</span></code></p>
 <p>WebSocket protocol for processing configuration data. The protocol describes
 how various connection events should be handled so that each connected
-is able to modify system settings and gets notified of changes that other
+client is able to modify system settings and gets notified of changes that other
 clients make.</p>
 <dl class="attribute">
 <dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControl.factory">
@@ -59,6 +59,19 @@ clients make.</p>
 <code class="descname">onClose</code><span class="sig-paren">(</span><em>wasClean</em>, <em>code</em>, <em>reason</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl.onClose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onClose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles the connection onClose event. Fired when the connection is
 closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>wasClean</strong> &#8211; Whether the connection closed cleanly.</li>
+<li><strong>code</strong> &#8211; The closing code.</li>
+<li><strong>reason</strong> &#8211; The reason for closing the connection.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -66,6 +79,14 @@ closed.</p>
 <code class="descname">onConnect</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControl.onConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControl.onConnect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles the WebSocket onConnect event. Fired when the client starts to
 connect.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> &#8211; The request object.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -74,6 +95,15 @@ connect.</p>
 <dd><p>Handles the connection onMessage event. Fired when the server receives
 a message. The server will decode the message, update the new settings
 and relay it to all other clients.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>payload</strong> &#8211; The message content.</td>
+</tr>
+</tbody>
+</table>
+<p>isBinary: Whether the payload is binary encoded.</p>
 </dd></dl>
 
 <dl class="method">
@@ -90,32 +120,59 @@ push a list of current settings to the client.</p>
 <dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory">
 <em class="property">class </em><code class="descclassname">spectral.supervisor.websocket.websocket_control.</code><code class="descname">ServerProtocolControlFactory</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.twisted.websocket.WebSocketServerFactory</span></code></p>
-<p>Factory for creating ServerProtocolControl instances.</p>
-<p>Args:
-url: The url to start the WebSocket server on.</p>
+<p>Factory for creating :class:ServerProtocolControl instances.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>url</strong> &#8211; The url to start the WebSocket server on.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.buildProtocol">
 <code class="descname">buildProtocol</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.buildProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.buildProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds a :class:ServerProtocolControl instance.</p>
-<p>Args:
-addr: (unused) The address of the client for this protocol.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>addr</strong> &#8211; (unused) The address of the client for this protocol.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.register">
 <code class="descname">register</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.register" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers the given client, so that it will receive updated settings.</p>
-<p>Args:
-client: The protocol instance of the client that connected.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>client</strong> &#8211; The :class:ServerProtocolControl instance of the client that connected.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.relay">
 <code class="descname">relay</code><span class="sig-paren">(</span><em>client</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.relay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.relay" title="Permalink to this definition">¶</a></dt>
 <dd><p>Relays the given message to all registered clients.</p>
-<p>Args:
-client: The client that originally received the message to relay.
-msg: The message to relay.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>client</strong> &#8211; The client that originally received the message to relay.</li>
+<li><strong>msg</strong> &#8211; The message to relay.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -123,9 +180,18 @@ msg: The message to relay.</p>
 <code class="descname">unregister</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/supervisor/websocket/websocket_control.html#ServerProtocolControlFactory.unregister"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory.unregister" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers the given client, so that it will stop receiving updated
 settings.</p>
-<p>Args:
-client: The :class:ServerProtocolControl instance of the client that
-connected.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>client</strong> &#8211; The :class:ServerProtocolControl instance of the client that</li>
+<li><strong>connected.</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -177,11 +243,11 @@ connected.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.supervisor.websocket.websocket_control.txt"

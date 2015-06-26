@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.multiprocessing.queue &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.multiprocessing.queue &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
   
@@ -42,13 +42,25 @@
 
 <div class="viewcode-block" id="SafeQueue"><a class="viewcode-back" href="../../../../spectral.supervisor.multiprocessing.queue.html#spectral.supervisor.multiprocessing.queue.SafeQueue">[docs]</a><span class="k">class</span> <span class="nc">SafeQueue</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Safe Queue implementation is a wrapper around standard multiprocessing</span>
-<span class="sd">        queue. Implements safe queuing and dequeueing. &quot;&quot;&quot;</span>
+<span class="sd">        queue. Implements safe queuing and dequeueing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            size: Optional argument that defines size of queue (default is 10).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
 
 <div class="viewcode-block" id="SafeQueue.queue"><a class="viewcode-back" href="../../../../spectral.supervisor.multiprocessing.queue.html#spectral.supervisor.multiprocessing.queue.SafeQueue.queue">[docs]</a>    <span class="k">def</span> <span class="nf">queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that wraps around put. Implements a lock to ensure race</span>
+<span class="sd">        conditions are avoided.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inp: Value to be queued.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">full</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
@@ -56,6 +68,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="SafeQueue.dequeue"><a class="viewcode-back" href="../../../../spectral.supervisor.multiprocessing.queue.html#spectral.supervisor.multiprocessing.queue.SafeQueue.dequeue">[docs]</a>    <span class="k">def</span> <span class="nf">dequeue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that wraps around get. Implements a lock to ensure race</span>
+<span class="sd">        conditions are avoided.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Last value in queue, if queue is empty returns None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
         <span class="n">item</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
@@ -95,11 +114,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

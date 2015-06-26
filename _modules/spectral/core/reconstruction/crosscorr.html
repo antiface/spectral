@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.reconstruction.crosscorr &mdash; Spectral  documentation</title>
+    <title>spectral.core.reconstruction.crosscorr &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
   
@@ -45,7 +45,12 @@
 
 <div class="viewcode-block" id="CrossCorrelation"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.crosscorr.html#spectral.core.reconstruction.crosscorr.CrossCorrelation">[docs]</a><span class="k">class</span> <span class="nc">CrossCorrelation</span><span class="p">(</span><span class="n">Reconstructor</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Implementation of ariananda2012 algorithm&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Implementation of ariananda2012 algorithm</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        L: Max lags estimated.</span>
+<span class="sd">        C: Sampling matrix used by the sampler.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="n">Reconstructor</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -60,12 +65,26 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">))</span>
 
 <div class="viewcode-block" id="CrossCorrelation.reconstruct"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.crosscorr.html#spectral.core.reconstruction.crosscorr.CrossCorrelation.reconstruct">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstruction function that implements the reconstruction part of the algorithm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            signal: Non uniformly sampled signal to be reconstructed.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Reconstructed autocorrelation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cross_corr_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_correlation_signals</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
         <span class="n">y_stacked</span> <span class="o">=</span> <span class="n">cross_corr_mat</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
         <span class="n">rx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R_pinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y_stacked</span><span class="p">)</span>  <span class="c"># Ravel reforms to 1 column</span>
         <span class="k">return</span> <span class="n">rx</span>
 </div>
 <div class="viewcode-block" id="CrossCorrelation.cross_correlation_filters"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.crosscorr.html#spectral.core.reconstruction.crosscorr.CrossCorrelation.cross_correlation_filters">[docs]</a>    <span class="k">def</span> <span class="nf">cross_correlation_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the filter cross correlations as specified in ariananda 2012 paper</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            R matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Rc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
         <span class="n">Rc1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>
@@ -80,6 +99,16 @@
         <span class="k">return</span> <span class="n">Rc</span>
 </div>
 <div class="viewcode-block" id="CrossCorrelation.block_toeplitz"><a class="viewcode-back" href="../../../../spectral.core.reconstruction.crosscorr.html#spectral.core.reconstruction.crosscorr.CrossCorrelation.block_toeplitz">[docs]</a>    <span class="k">def</span> <span class="nf">block_toeplitz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Rc0</span><span class="p">,</span> <span class="n">Rc1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Variant on the toeplitz function only for block matrices.</span>
+<span class="sd">        Implements the methodology described in ariananda 2012.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            Rc0: First block matrix</span>
+<span class="sd">            Rc1: Second block matrix</span>
+
+<span class="sd">        returns:</span>
+<span class="sd">            Block toeplitz of aforementioned matrices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Rc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(((</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
                        <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
@@ -127,11 +156,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

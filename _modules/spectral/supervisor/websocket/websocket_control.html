@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.supervisor.websocket.websocket_control &mdash; Spectral  documentation</title>
+    <title>spectral.supervisor.websocket.websocket_control &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="../../../../index.html" />
+    <link rel="top" title="spectral  documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
   
@@ -48,7 +48,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    WebSocket protocol for processing configuration data. The protocol describes</span>
 <span class="sd">    how various connection events should be handled so that each connected</span>
-<span class="sd">    is able to modify system settings and gets notified of changes that other</span>
+<span class="sd">    client is able to modify system settings and gets notified of changes that other</span>
 <span class="sd">    clients make.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -76,6 +76,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles the WebSocket onConnect event. Fired when the client starts to</span>
 <span class="sd">        connect.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request: The request object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span> <span class="s">&quot;Client connecting: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">peer</span><span class="p">)</span>
 </div>
@@ -84,6 +87,10 @@
 <span class="sd">        Handles the connection onMessage event. Fired when the server receives</span>
 <span class="sd">        a message. The server will decode the message, update the new settings</span>
 <span class="sd">        and relay it to all other clients.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            payload: The message content.</span>
+<span class="sd">        isBinary: Whether the payload is binary encoded.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]})</span>
@@ -93,6 +100,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles the connection onClose event. Fired when the connection is</span>
 <span class="sd">        closed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wasClean: Whether the connection closed cleanly.</span>
+<span class="sd">            code: The closing code.</span>
+<span class="sd">            reason: The reason for closing the connection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span> <span class="s">&quot;WebSocket connection closed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reason</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -101,10 +113,10 @@
 <div class="viewcode-block" id="ServerProtocolControlFactory"><a class="viewcode-back" href="../../../../spectral.supervisor.websocket.websocket_control.html#spectral.supervisor.websocket.websocket_control.ServerProtocolControlFactory">[docs]</a><span class="k">class</span> <span class="nc">ServerProtocolControlFactory</span><span class="p">(</span><span class="n">WebSocketServerFactory</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Factory for creating ServerProtocolControl instances.</span>
+<span class="sd">    Factory for creating :class:ServerProtocolControl instances.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">    url: The url to start the WebSocket server on.</span>
+<span class="sd">        url: The url to start the WebSocket server on.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
@@ -116,7 +128,7 @@
 <span class="sd">        Registers the given client, so that it will receive updated settings.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">        client: The protocol instance of the client that connected.</span>
+<span class="sd">            client: The :class:ServerProtocolControl instance of the client that connected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">client</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">:</span>
             <span class="k">print</span> <span class="s">&quot;Registered client {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">peer</span><span class="p">)</span>
@@ -128,8 +140,8 @@
 <span class="sd">        settings.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">        client: The :class:ServerProtocolControl instance of the client that</span>
-<span class="sd">        connected.</span>
+<span class="sd">            client: The :class:ServerProtocolControl instance of the client that</span>
+<span class="sd">            connected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">client</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">:</span>
             <span class="k">print</span> <span class="s">&quot;Unregistered client {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">peer</span><span class="p">)</span>
@@ -140,8 +152,8 @@
 <span class="sd">        Relays the given message to all registered clients.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">        client: The client that originally received the message to relay.</span>
-<span class="sd">        msg: The message to relay.</span>
+<span class="sd">            client: The client that originally received the message to relay.</span>
+<span class="sd">            msg: The message to relay.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">client</span><span class="p">:</span>
@@ -152,7 +164,7 @@
 <span class="sd">        Builds a :class:ServerProtocolControl instance.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">        addr: (unused) The address of the client for this protocol.</span>
+<span class="sd">            addr: (unused) The address of the client for this protocol.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">protocol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">()</span>
         <span class="n">protocol</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span>
@@ -190,11 +202,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
     </div>
 

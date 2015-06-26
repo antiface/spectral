@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>spectral.core.reconstruction.crosscorr module &mdash; Spectral  documentation</title>
+    <title>spectral.core.reconstruction.crosscorr module &mdash; spectral  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Spectral  documentation" href="index.html" />
+    <link rel="top" title="spectral  documentation" href="index.html" />
     <link rel="up" title="spectral.core.reconstruction package" href="spectral.core.reconstruction.html" />
     <link rel="next" title="spectral.core.reconstruction.reconstructor module" href="spectral.core.reconstruction.reconstructor.html" />
     <link rel="prev" title="spectral.core.reconstruction package" href="spectral.core.reconstruction.html" />
@@ -46,20 +46,64 @@
 <em class="property">class </em><code class="descclassname">spectral.core.reconstruction.crosscorr.</code><code class="descname">CrossCorrelation</code><span class="sig-paren">(</span><em>L</em>, <em>C</em>, <em>cache=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/crosscorr.html#CrossCorrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.crosscorr.CrossCorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="spectral.core.reconstruction.reconstructor.html#spectral.core.reconstruction.reconstructor.Reconstructor" title="spectral.core.reconstruction.reconstructor.Reconstructor"><code class="xref py py-class docutils literal"><span class="pre">spectral.core.reconstruction.reconstructor.Reconstructor</span></code></a></p>
 <p>Implementation of ariananda2012 algorithm</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>L</strong> &#8211; Max lags estimated.</li>
+<li><strong>C</strong> &#8211; Sampling matrix used by the sampler.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="spectral.core.reconstruction.crosscorr.CrossCorrelation.block_toeplitz">
 <code class="descname">block_toeplitz</code><span class="sig-paren">(</span><em>Rc0</em>, <em>Rc1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/crosscorr.html#CrossCorrelation.block_toeplitz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.crosscorr.CrossCorrelation.block_toeplitz" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Variant on the toeplitz function only for block matrices.
+Implements the methodology described in ariananda 2012.
+:param Rc0: First block matrix
+:param Rc1: Second block matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Block toeplitz of aforementioned matrices.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.crosscorr.CrossCorrelation.cross_correlation_filters">
 <code class="descname">cross_correlation_filters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/crosscorr.html#CrossCorrelation.cross_correlation_filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.crosscorr.CrossCorrelation.cross_correlation_filters" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the filter cross correlations as specified in ariananda 2012 paper</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">R matrix</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="spectral.core.reconstruction.crosscorr.CrossCorrelation.reconstruct">
 <code class="descname">reconstruct</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral/core/reconstruction/crosscorr.html#CrossCorrelation.reconstruct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spectral.core.reconstruction.crosscorr.CrossCorrelation.reconstruct" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reconstruction function that implements the reconstruction part of the algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>signal</strong> &#8211; Non uniformly sampled signal to be reconstructed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Reconstructed autocorrelation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -110,11 +154,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, Author.
+      &copy;.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.5</a>
       
       |
       <a href="_sources/spectral.core.reconstruction.crosscorr.txt"
